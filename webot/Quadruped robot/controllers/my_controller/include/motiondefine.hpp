@@ -51,6 +51,8 @@ class MotionControl
         Vector<float, 3> targetCoMVelocity;//X, Y , alpha c in world cordinate
         float L1, L2, L3;  // The length of L
         float width, length;
+        int key;// keyboard
+        Vector<float, 3> tCV; //target velocity of x,y,taoz
         Vector<float, 12> jointPresentPos;  // present joint 0-11
         Matrix<float, 4, 3> legCmdPos;//主要用于初始化机器人姿态，使得机器人能够弯曲站立在表面上
         Matrix<float, 4, 2> shoulderPos;  // X-Y: LF, RF, LH, RH

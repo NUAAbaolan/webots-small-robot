@@ -75,6 +75,34 @@ void MotionControl::Sensor_update()
     {
         imuVel(i) = (imu_num(i) - Lastimu_num(i)) / timePeriod;
     }
+    if (key == 87)
+    {
+      tCV(0) = tCV(0) + 0.01;
+    }
+    else if (key == 83)
+    {
+      tCV(0) = tCV(0) - 0.01;
+    }
+    else if (key == 65)
+    {
+      tCV(1) = tCV(1) + 0.01;
+    }
+    else if (key == 68)
+    {
+      tCV(1) = tCV(1) - 0.01;
+    }
+    else if(key == 81)
+    {
+      tCV(2) = tCV(2) + 0.01;
+    }
+    else if(key == 69)
+    {
+      tCV(2) = tCV(2) - 0.01;
+    }
+    else
+    {
+      tCV = tCV;
+    }
 }
 void MotionControl::forwardKinematics()
 {
@@ -505,20 +533,38 @@ void MotionControl::swing_VMC()
         jacobian_torque.tail(3) = temp_torqueswing.tail(3);
     }
     fly_time += timePeriod;
-    if (fly_time > T + 0.005)
-    {
-        fly_time = 0.0;
-        if (swingFlag == 0)
-        {
-            swingFlag = 1;
-            legPresentPos_target << legPresentPos(2, 0), legPresentPos(2, 1), legPresentPos(2, 2);
-        }
-        else
-        {
-            swingFlag = 0;
-            legPresentPos_target << legPresentPos(3, 0), legPresentPos(3, 1), legPresentPos(3, 2);
-        }
-    }
+    Vector<float, 4> temp_3leg1;
+    temp_3leg1 << 0, 1, 1, 1;
+    Vector<float, 4> temp_3leg2;
+    temp_3leg2 << 1, 0, 1, 1;
+    Vector<float, 4> temp_3leg3;
+    temp_3leg3 << 1, 1, 0, 1;
+    Vector<float, 4> temp_3leg4;
+    temp_3leg4 << 1, 1, 1, 0;
+    if(state == temp_3leg1)
+        leg << 1,2,3;
+    else if(state == temp_3leg2)
+        leg << 0,2,3;
+    else if(state == temp_3leg3)
+        leg << 0,1,3;
+    else if(state == temp_3leg4)
+        leg << 0,1,2;
+    else
+        leg = leg;
+    // if (fly_time > T + 0.005)
+    // {
+    //     fly_time = 0.0;
+    //     if (swingFlag == 0)
+    //     {
+    //         swingFlag = 1;
+    //         legPresentPos_target << legPresentPos(2, 0), legPresentPos(2, 1), legPresentPos(2, 2);
+    //     }
+    //     else
+    //     {
+    //         swingFlag = 0;
+    //         legPresentPos_target << legPresentPos(3, 0), legPresentPos(3, 1), legPresentPos(3, 2);
+    //     }
+    // }
 }
 void MotionControl::stance_VMC_3leg()
 {
@@ -539,8 +585,9 @@ void MotionControl::stance_VMC_3leg()
         leg << 0,1,3;
     else if(state == temp_3leg4)
         leg << 0,1,2;
-    else 
+    else
         leg = leg;
+    cout << "leg: " << leg.transpose() << endl;
     target_taoz = target_taoz + targetCoMVelocity[2] * timePeriod;
     float tao_x = k_taox * (0.0 - imu_num[0]) + d_taox * (0 -imuVel(0));
     float tao_y = k_taoy * (0.0 - imu_num[1]) + d_taoy * (0 -imuVel(1));
@@ -576,9 +623,9 @@ void MotionControl::stance_VMC_3leg()
     presentCoMVelocity[0] = temp_comvel(0);
     presentCoMVelocity[1] = temp_comvel(1);
     presentCoMVelocity[2] = temp_comvel(2);
-    float Fx = -kx * (0 - legPresentPos(leg[2],0)) + dx * (targetCoMVelocity[0] - presentCoMVelocity[0]);
-    float Fz = -kz * (-0.24 - legPresentPos(leg[2],2)) + dz * (0 - presentCoMVelocity(2));
-    float Fy = -ky * (0 -legPresentPos(leg[2], 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
+    float Fx = -kx * (0 - legPresentPos(leg[2], 0)) + dx * (targetCoMVelocity[0] - presentCoMVelocity[0]);
+    float Fz = -kz * (-0.24 - legPresentPos(leg[2], 2)) + dz * (0 - presentCoMVelocity(2));
+    float Fy = -ky * (0.0009 -legPresentPos(leg[2], 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
     B << Fx - 9.81 * G * sin(-imu_num(1)), Fy, 9.81 * G * cos(-imu_num(1)) + Fz, tao_x, tao_y, tao_z;
     float alpha = 0.001;
     Matrix<float, 9, 9> temp_H;
@@ -612,12 +659,12 @@ void MotionControl::stance_VMC_3leg()
                        0, 0, 0, 0, 0, 0, -u, 0, 1,
                        0, 0, 0, 0, 0, 0, 0, u, 1,
                        0, 0, 0, 0, 0, 0, 0, -u, 1};
-    real_t lb[9] = {-660, -660, 0, -660, -660, 0, -660, -660, 0};
-    real_t ub[9] = {660, 660, 660, 660, 660, 660, 660, 660, 660};
+    real_t lb[9] = {-40, -40, 0, -40, -40, 0, -40, -40, 0};
+    real_t ub[9] = {40, 40, 40, 40, 40, 40, 40, 40, 40};
     real_t lbA[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     real_t ubA[12] = {100000, 100000, 1000000, 1000000, 1000000, 100000, 100000, 100000, 100000, 100000, 100000, 100000};
 	SQProblem example( 9,12 );
-	int_t nWSR = 40;
+	int_t nWSR = 50;
 	example.init( H,g,fA,lb,ub,lbA,ubA,nWSR);
 	real_t xOpt[9];
 	example.getPrimalSolution( xOpt );
@@ -634,9 +681,9 @@ void MotionControl::stance_VMC_3leg()
                                       jacobian(leg[2] ,3), jacobian(leg[2] ,4), jacobian(leg[2] ,5),
                                       jacobian(leg[2] ,6), jacobian(leg[2] ,7), jacobian(leg[2] ,8);
     temp_torque = -jacobian_Matrix.transpose() * temp_Force;
-    jacobian_torque.segment(leg[0], 3) = temp_torque.head(3);
-    jacobian_torque.segment(leg[1], 3) = temp_torque.segment(3,3);
-    jacobian_torque.segment(leg[2], 3) = temp_torque.tail(3);
+    jacobian_torque.segment(leg[0] * 3, 3) = temp_torque.head(3);
+    jacobian_torque.segment(leg[1] * 3, 3) = temp_torque.segment(3,3);
+    jacobian_torque.segment(leg[2] * 3, 3) = temp_torque.tail(3);
 }
 void MotionControl::swing_VMC_3leg()
 {
@@ -663,8 +710,8 @@ void MotionControl::swing_VMC_3leg()
     Vector<float, 3> legPresentVel;
     Vector<float, 3> legCmdVel;
     legCmdPos(fly_leg, 0) = x;
-    legCmdPos(fly_leg, 1) = y - legPresentPos(3,1);
-    legCmdPos(fly_leg,2) = -0.24 + z;
+    legCmdPos(fly_leg, 1) = y - 0.8 * legPresentPos(leg[2],1);
+    legCmdPos(fly_leg, 2) = -0.24 + z;
     legCmdVel(0) = vx;
     legCmdVel(1) = vy;
     legCmdVel(2) = vz;
@@ -672,13 +719,13 @@ void MotionControl::swing_VMC_3leg()
                             jacobian(fly_leg, 3), jacobian(fly_leg ,4), jacobian(fly_leg ,5),
                             jacobian(fly_leg ,6), jacobian(fly_leg ,7), jacobian(fly_leg ,8);
     Vector<float, 3>temp_jointPresentVel;
-    temp_jointPresentVel = jointPresentVel.segment(fly_leg, 3);
+    temp_jointPresentVel = jointPresentVel.segment(fly_leg * 3, 3);
     legPresentVel = jacobian_swingMatrix * temp_jointPresentVel;
     Vector<float, 3> temp_forceswing;
     temp_forceswing(0) = swingfx_kp * (legCmdPos(fly_leg,0)- legPresentPos(fly_leg,0)) - swingfx_kd * (legPresentVel(0) - legCmdVel(0));
     temp_forceswing(1) = swingfy_kp * (legCmdPos(fly_leg,1)- legPresentPos(fly_leg,1)) - swingfy_kd * (legPresentVel(1) - legCmdVel(1));
     temp_forceswing(2) = swingfz_kp * (legCmdPos(fly_leg,2)- legPresentPos(fly_leg,2)) - swingfz_kd * (legPresentVel(2) - legCmdVel(2));
-    jacobian_torque.segment(fly_leg, 3) = jacobian_swingMatrix * temp_forceswing;
+    jacobian_torque.segment(fly_leg * 3, 3) = jacobian_swingMatrix * temp_forceswing;
     fly_time += timePeriod;
 }
 void MotionControl::stance_VMC_4leg()
@@ -725,7 +772,7 @@ void MotionControl::stance_VMC_4leg()
         presentCoMVelocity[2] = temp_comvel(2);
         float Fx = -kx * (0- legPresentPos(3,0)) + dx * (targetCoMVelocity[0] - presentCoMVelocity[0]);
         float Fz = -kz * (-0.24 - legPresentPos(3,2)) + dz * (0 - presentCoMVelocity(2));
-        float Fy = -ky * (0  -legPresentPos(3, 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
+        float Fy = -ky * (0.0009  -legPresentPos(3, 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
         B << Fx - 9.81 * G * sin(-imu_num(1)), Fy, 9.81 * G * cos(-imu_num(1)) + Fz, tao_x, tao_y, tao_z;
     }
     else
@@ -745,7 +792,7 @@ void MotionControl::stance_VMC_4leg()
         presentCoMVelocity[2] = temp_comvel(2);
         float Fx = -kx * (0 - legPresentPos(2,0)) + dx * (targetCoMVelocity[0] - presentCoMVelocity[0]);
         float Fz = -kz * (-0.24 - legPresentPos(2,2)) + dz * (0 - presentCoMVelocity(2));
-        float Fy = -ky * (0 -legPresentPos(2, 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
+        float Fy = -ky * (0.0009 -legPresentPos(2, 1)) + dy * (targetCoMVelocity[1] - presentCoMVelocity[1]);
         B << Fx - 9.81 * G * sin(-imu_num(1)), Fy, 9.81 * G * cos(-imu_num(1)) + Fz, tao_x, tao_y, tao_z;
     }
     float alpha = 0.001;
