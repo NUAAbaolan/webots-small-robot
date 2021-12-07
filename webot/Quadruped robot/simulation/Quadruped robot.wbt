@@ -1,0 +1,563 @@
+#VRML_SIM R2021b utf8
+WorldInfo {
+  basicTimeStep 10
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation -0.9469042261992082 -0.32151220356184124 -0.0015130653943942092 0.20538539449551502
+  position -0.060217498451578894 0.5943717979054894 1.5067530649610374
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 20 20
+}
+Robot {
+  translation 4.10961e-07 0.32 1.33834e-07
+  rotation -0.5773509358554486 0.5773489358556709 0.5773509358554486 2.0944
+  children [
+    InertialUnit {
+    }
+    Camera {
+    }
+    DEF RH Transform {
+      translation -0.087 -0.066 0
+      children [
+        DEF RH_LEG_L0 HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "RHL0_rotational motor"
+              maxTorque 2000
+            }
+            PositionSensor {
+              name "RHL0_position sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 0 0 -0.9999999999999999 1.5707953071795862
+            children [
+              Transform {
+                rotation 0 0 -1 -1.5707953071795862
+                children [
+                  DEF RH_LEG_L1 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "RHL1_rotational motor"
+                        maxTorque 2000
+                      }
+                      PositionSensor {
+                        name "RHL1_position sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.066
+                      rotation 1 0 0 1.5708
+                      children [
+                        Transform {
+                          translation 0 -0.066 0
+                          rotation 1 0 0 -1.5707953071795862
+                          children [
+                            DEF RH_LEG_L2 HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 1 0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "RHL2_rotational motor"
+                                  maxTorque 2000
+                                }
+                                PositionSensor {
+                                  name "RHL2_position sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.069
+                                rotation 1 0 0 1.5708
+                                children [
+                                  TouchSensor {
+                                    translation 0 -0.069 0
+                                    children [
+                                      DEF RH_SENSOR Shape {
+                                        appearance PBRAppearance {
+                                        }
+                                        geometry Sphere {
+                                          radius 0.02
+                                        }
+                                      }
+                                    ]
+                                    name "RH_touch sensor"
+                                    boundingObject USE RH_SENSOR
+                                    physics Physics {
+                                      density -1
+                                      mass 0.002
+                                    }
+                                  }
+                                  DEF RHL2_SHAPE Shape {
+                                    appearance PBRAppearance {
+                                    }
+                                    geometry Capsule {
+                                      height 0.138
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                                boundingObject USE RHL2_SHAPE
+                                physics Physics {
+                                  density -1
+                                  mass 0.04
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF RHL1_SHAPE Shape {
+                          appearance PBRAppearance {
+                          }
+                          geometry Capsule {
+                            height 0.132
+                            radius 0.01
+                          }
+                        }
+                      ]
+                      boundingObject USE RHL1_SHAPE
+                      physics Physics {
+                        density -1
+                        mass 0.04
+                        centerOfMass [
+                          0 0 0
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF RHL0_SHPAE Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.015
+                }
+              }
+            ]
+            name "solid(3)"
+            boundingObject USE RHL0_SHPAE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF LH Transform {
+      translation -0.087 0.066 0
+      children [
+        DEF LH_LEG_L0 HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "LHL0_rotational motor"
+              maxTorque 2000
+            }
+            PositionSensor {
+              name "LHL0_position sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 0 0 -0.9999999999999999 1.5707953071795862
+            children [
+              Transform {
+                rotation 0 0 -1 -1.5707953071795862
+                children [
+                  DEF LH_LEG_L1 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "LHL1_rotational motor"
+                        maxTorque 2000
+                      }
+                      PositionSensor {
+                        name "LHL1_position sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.066
+                      rotation 1 0 0 1.5708
+                      children [
+                        Transform {
+                          translation 0 -0.066 0
+                          rotation 1 0 0 -1.5707953071795862
+                          children [
+                            DEF LH_LEG_L2 HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 1 0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "LHL2_rotational motor"
+                                  maxTorque 2000
+                                }
+                                PositionSensor {
+                                  name "LHL2_position sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.069
+                                rotation 1 0 0 1.5708
+                                children [
+                                  TouchSensor {
+                                    translation 0 -0.069 0
+                                    children [
+                                      DEF LH_SENSOR Shape {
+                                        appearance PBRAppearance {
+                                        }
+                                        geometry Sphere {
+                                          radius 0.02
+                                        }
+                                      }
+                                    ]
+                                    name "LH_touch sensor"
+                                    boundingObject USE LH_SENSOR
+                                    physics Physics {
+                                      density -1
+                                      mass 0.002
+                                    }
+                                  }
+                                  DEF LHL2_SHAPE Shape {
+                                    appearance PBRAppearance {
+                                    }
+                                    geometry Capsule {
+                                      height 0.138
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                                boundingObject USE LHL2_SHAPE
+                                physics Physics {
+                                  density -1
+                                  mass 0.04
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF LHL1_SHAPE Shape {
+                          appearance PBRAppearance {
+                          }
+                          geometry Capsule {
+                            height 0.132
+                            radius 0.01
+                          }
+                        }
+                      ]
+                      boundingObject USE LHL1_SHAPE
+                      physics Physics {
+                        density -1
+                        mass 0.04
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF LHL0_SHPAE Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.015
+                }
+              }
+            ]
+            name "solid(2)"
+            boundingObject USE LHL0_SHPAE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF RF Transform {
+      translation 0.087 -0.066 0
+      children [
+        DEF RF_LEG_L0 HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "RFL0_rotational motor"
+              maxTorque 2000
+            }
+            PositionSensor {
+              name "RFL0_position sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 0 0 -0.9999999999999999 1.5707953071795862
+            children [
+              Transform {
+                rotation 0 0 -1 -1.5707953071795862
+                children [
+                  DEF RF_LEG_L1 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "RFL1_rotational motor"
+                        maxTorque 2000
+                      }
+                      PositionSensor {
+                        name "RFL1_position sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.066
+                      rotation 1 0 0 1.5708
+                      children [
+                        Transform {
+                          translation 0 -0.066 0
+                          rotation 1 0 0 -1.5707953071795862
+                          children [
+                            DEF RF_LEG_L2 HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 1 0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "RFL2_rotational motor"
+                                  maxTorque 2000
+                                }
+                                PositionSensor {
+                                  name "RFL2_position sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.069
+                                rotation 1 0 0 1.5708
+                                children [
+                                  TouchSensor {
+                                    translation 0 -0.069 0
+                                    children [
+                                      DEF RF_SENSOR Shape {
+                                        appearance PBRAppearance {
+                                        }
+                                        geometry Sphere {
+                                          radius 0.02
+                                        }
+                                      }
+                                    ]
+                                    name "RF_touch sensor"
+                                    boundingObject USE RF_SENSOR
+                                    physics Physics {
+                                      density -1
+                                      mass 0.002
+                                    }
+                                  }
+                                  DEF RFL2_SHAPE Shape {
+                                    appearance PBRAppearance {
+                                    }
+                                    geometry Capsule {
+                                      height 0.138
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                                boundingObject USE RFL2_SHAPE
+                                physics Physics {
+                                  density -1
+                                  mass 0.04
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF RFL1_SHAPE Shape {
+                          appearance PBRAppearance {
+                          }
+                          geometry Capsule {
+                            height 0.132
+                            radius 0.01
+                          }
+                        }
+                      ]
+                      boundingObject USE RFL1_SHAPE
+                      physics Physics {
+                        density -1
+                        mass 0.04
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF RFL0_SHPAE Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.015
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE RFL0_SHPAE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF LF Transform {
+      translation 0.087 0.066 0
+      children [
+        DEF LF_LEG_L0 HingeJoint {
+          jointParameters HingeJointParameters {
+          }
+          device [
+            RotationalMotor {
+              name "LFL0_rotational motor"
+              maxTorque 2000
+            }
+            PositionSensor {
+              name "LFL0_position sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 0 0 -0.9999999999999999 1.5707953071795862
+            children [
+              Transform {
+                rotation 0 0 -1 -1.5707953071795862
+                children [
+                  DEF LF_LEG_L1 HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "LFL1_rotational motor"
+                        maxTorque 2000
+                      }
+                      PositionSensor {
+                        name "LFL1_position sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.066
+                      rotation 1 0 0 1.5708
+                      children [
+                        Transform {
+                          translation 0 -0.066 0
+                          rotation 1 0 0 -1.5707953071795862
+                          children [
+                            DEF LF_LEG_L2 HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0 1 0
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "LFL2_rotational motor"
+                                  maxTorque 2000
+                                }
+                                PositionSensor {
+                                  name "LFL2_position sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.069
+                                rotation 1 0 0 1.5708
+                                children [
+                                  TouchSensor {
+                                    translation 0 -0.069 0
+                                    children [
+                                      DEF LF_SENSOR Shape {
+                                        appearance PBRAppearance {
+                                        }
+                                        geometry Sphere {
+                                          radius 0.02
+                                        }
+                                      }
+                                    ]
+                                    name "LF_touch sensor"
+                                    boundingObject USE LF_SENSOR
+                                    physics Physics {
+                                      density -1
+                                      mass 0.002
+                                    }
+                                  }
+                                  DEF LFL2_SHAPE Shape {
+                                    appearance PBRAppearance {
+                                    }
+                                    geometry Capsule {
+                                      height 0.138
+                                      radius 0.01
+                                    }
+                                  }
+                                ]
+                                boundingObject USE LFL2_SHAPE
+                                physics Physics {
+                                  density -1
+                                  mass 0.04
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF LFL1_SHAPE Shape {
+                          appearance PBRAppearance {
+                          }
+                          geometry Capsule {
+                            height 0.132
+                            radius 0.01
+                          }
+                        }
+                      ]
+                      boundingObject USE LFL1_SHAPE
+                      physics Physics {
+                        density -1
+                        mass 0.04
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF LFL0_SHPAE Shape {
+                appearance PBRAppearance {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.015
+                }
+              }
+            ]
+            boundingObject USE LFL0_SHPAE
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF BODY_SHAPE Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Box {
+        size 0.33 0.16 0.041
+      }
+    }
+  ]
+  boundingObject USE BODY_SHAPE
+  physics Physics {
+    density -1
+    mass 3
+  }
+  controller "my_controller"
+}

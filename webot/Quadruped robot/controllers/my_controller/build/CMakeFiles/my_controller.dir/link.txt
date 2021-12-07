@@ -1,0 +1,1 @@
+/usr/bin/c++  -o0 -Wall -g -ggdb  -rdynamic CMakeFiles/my_controller.dir/src/my_controller.cpp.o  -o my_controller   -L/home/baolan/webots/webots/lib/controller  -Wl,-rpath,/home/baolan/webots/webots/lib/controller -lController -lCppController -Wl,-Bstatic -lqpOASES -Wl,-Bdynamic 
