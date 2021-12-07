@@ -84,7 +84,7 @@ class MotionControl
         float k_taox = 38;//
         float k_taoy = 78;//
         float k_taoz = 30;
-        float d_taox = 0.658;//
+        float d_taox = 0.66;//
         float d_taoy = 3.53;//
         float d_taoz = 5;
 
